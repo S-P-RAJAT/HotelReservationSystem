@@ -15,7 +15,8 @@ public class HotelReservation {
         hotel = new Hotel(hotelName, rating, customerType, rate);
         hotelList.add(hotel);
     }
-    public int getSize(){
+
+    public int getSize() {
         return hotelList.size();
     }
 
@@ -24,9 +25,10 @@ public class HotelReservation {
         Hotel hotel = hotelList.stream()
                 .min(Comparator.comparing(Hotel::getRate))
                 .orElse(null);
-
-        int cheapestPrice=hotel.getRate();
-        System.out.println("Hotel name: "+hotel.getHotelName()+" \nCheapest price: "+cheapestPrice*noOfDaysBetween);
+        if (hotel != null) {
+            int cheapestPrice = hotel.getRate();
+            System.out.println("Hotel name: " + hotel.getHotelName() + " \nCheapest price: " + cheapestPrice * noOfDaysBetween);
+        }
         return hotel;
 
     }

@@ -4,12 +4,14 @@ package com.bridgelabz.hotelreservationsystem;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 public class HotelReservationTest {
 
     @Test
     public void add_LakeWoodHotel_shouldReturnSize() {
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotels("LakeWood",3, CustomerType.REGULAR,110);
+        hotelReservation.addHotel("LakeWood",3, CustomerType.REGULAR,110);
         Assert.assertEquals(1, hotelReservation.getSize());
 
     }
@@ -17,7 +19,7 @@ public class HotelReservationTest {
     public void add_BrideWoodHotel_shouldReturnSize() {
         HotelReservation hotelReservation = new HotelReservation();
 
-        hotelReservation.addHotels("BridgeWood",4, CustomerType.REGULAR,160);
+        hotelReservation.addHotel("BridgeWood",4, CustomerType.REGULAR,160);
         Assert.assertEquals(1, hotelReservation.getSize());
 
 
@@ -26,9 +28,22 @@ public class HotelReservationTest {
     @Test
     public void add_RidgeWoodHotel_shouldReturnSize() {
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotels("RidgeWood",5, CustomerType.REGULAR,220);
+        hotelReservation.addHotel("RidgeWood",5, CustomerType.REGULAR,220);
         Assert.assertEquals(1, hotelReservation.getSize());
 
 
+    }
+    @Test
+    public void givenStartAndEndDate_ShouldReturnHotelWithCheapestPrice() {
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel("LakeWood",3, CustomerType.REGULAR,110);
+        hotelReservation.addHotel("BridgeWood",4, CustomerType.REGULAR,10);
+        hotelReservation.addHotel("RidgeWood",5, CustomerType.REGULAR,220);
+
+
+        LocalDateTime startDate = LocalDateTime.of(2021, 9, 10, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(2021, 9, 12, 0, 0);
+        Hotel hotel = hotelReservation.getCheapestHotel(startDate, endDate);
+        Assert.assertEquals("BridgeWood", hotel.getHotelName());
     }
 }

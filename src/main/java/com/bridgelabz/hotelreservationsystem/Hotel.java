@@ -23,7 +23,7 @@ public class Hotel {
     public Hotel(String hotelName, int rating, CustomerType customerType, int weekDayRate, int weekEndRate) {
         super();
         this.hotelName = hotelName;
-        this.rating = rating;
+        this.rating = rating ;
         this.customerType = customerType;
         this.weekDayRate = weekDayRate;
         this.weekEndRate = weekEndRate;

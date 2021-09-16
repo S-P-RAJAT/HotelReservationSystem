@@ -13,7 +13,7 @@ public class HotelReservationTest {
     public void add_LakeWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood",3, CustomerType.REGULAR,110,90);
+        hotelReservation.addHotel("LakeWood", 3, CustomerType.REGULAR,110,90);
         Assert.assertEquals(1, hotelReservation.getSize());
 
     }
@@ -21,7 +21,7 @@ public class HotelReservationTest {
     public void add_BrideWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("BridgeWood",4, CustomerType.REGULAR,150,50);
+        hotelReservation.addHotel("BridgeWood", 4, CustomerType.REGULAR,150,50);
         Assert.assertEquals(1, hotelReservation.getSize());
 
     }
@@ -29,16 +29,16 @@ public class HotelReservationTest {
     public void add_RidgeWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("RidgeWood",5, CustomerType.REGULAR,220,150);
+        hotelReservation.addHotel("RidgeWood", 5, CustomerType.REGULAR,220,150);
         Assert.assertEquals(1, hotelReservation.getSize());
     }
     @Test
     public void givenStartAndEndDate_WhenHotelListNotEmpty_ShouldReturnHotelWithCheapestPrice() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood",3, CustomerType.REGULAR,110,90);
-        hotelReservation.addHotel("BridgeWood",4, CustomerType.REGULAR,150,50);
-        hotelReservation.addHotel("RidgeWood",5, CustomerType.REGULAR,220,150);
+        hotelReservation.addHotel("LakeWood", 3, CustomerType.REGULAR,110,90);
+        hotelReservation.addHotel("BridgeWood", 4, CustomerType.REGULAR,150,50);
+        hotelReservation.addHotel("RidgeWood", 5, CustomerType.REGULAR,220,150);
 
         LocalDate startDate = LocalDate.of(2020, 9, 11);
         LocalDate endDate = LocalDate.of(2020, 9, 12);

@@ -12,6 +12,14 @@ public class Hotel {
     private int weekDayRate;
     private int weekEndRate;
 
+    public int getWeekEndRate() {
+        return weekEndRate;
+    }
+
+    public void setWeekEndRate(int weekEndRate) {
+        this.weekEndRate = weekEndRate;
+    }
+
     public Hotel(String hotelName, int rating, CustomerType customerType, int weekDayRate, int weekEndRate) {
         super();
         this.hotelName = hotelName;

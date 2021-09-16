@@ -30,16 +30,26 @@ public class HotelReservation {
         //adjust for starting and ending on a Sunday:
         return daysWithoutWeekends + (startW == DayOfWeek.SUNDAY ? 1 : 0) + (endW == DayOfWeek.SUNDAY ? 1 : 0);
     }
-    public Hotel getCheapestHotel(LocalDate startDate, LocalDate endDate) {
+    public ArrayList<Hotel> getCheapestHotel(LocalDate startDate, LocalDate endDate) {
         int noOfDaysBetween = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        int noOfWeekDays = (int)calculateWeekDays(startDate, endDate);
         Hotel hotel = hotelList.stream()
-                .min(Comparator.comparing(Hotel::getWeekDayRate))
+                .min(Comparator.comparing(hotel1 -> hotel1.getWeekDayRate()*noOfWeekDays+ hotel1.getWeekEndRate()*(noOfDaysBetween-noOfWeekDays)))
                 .orElse(null);
+        ArrayList<Hotel> hotelList2 = new ArrayList<>();
+
         if (hotel != null) {
-            int cheapestPrice = hotel.getWeekDayRate();
-            System.out.println("Hotel name: " + hotel.getHotelName() + " \nCheapest price: " + cheapestPrice * noOfDaysBetween);
+            int cheapestPrice = hotel.getWeekDayRate()*noOfWeekDays+ hotel.getWeekEndRate()*(noOfDaysBetween-noOfWeekDays);
+            for (Hotel newhotel:
+                 hotelList) {
+                int hotelprice = newhotel.getWeekDayRate()*noOfWeekDays+ newhotel.getWeekEndRate()*(noOfDaysBetween-noOfWeekDays);
+                if(hotelprice==cheapestPrice){
+                    hotelList2.add(newhotel);
+
+                }            }
+            System.out.println("Hotel name: " + hotel.getHotelName() + " \nCheapest price: " + cheapestPrice);
         }
-        return hotel;
+        return hotelList2;
 
     }
 }

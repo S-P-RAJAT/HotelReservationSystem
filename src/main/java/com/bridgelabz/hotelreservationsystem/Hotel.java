@@ -1,24 +1,24 @@
 package com.bridgelabz.hotelreservationsystem;
 
 enum CustomerType {
-    REGULAR;
-};
+    REGULAR
+}
 
 public class Hotel {
 
     private String hotelName;
     private int rating;
+    private CustomerType customerType;
+    private int weekDayRate;
+    private int weekEndRate;
 
-    CustomerType customerType;
-
-    private int rate;
-
-    public Hotel(String hotelName, int rating, CustomerType customerType, int rate) {
+    public Hotel(String hotelName, int rating, CustomerType customerType, int weekDayRate, int weekEndRate) {
         super();
         this.hotelName = hotelName;
         this.rating = rating;
         this.customerType = customerType;
-        this.rate = rate;
+        this.weekDayRate = weekDayRate;
+        this.weekEndRate = weekEndRate;
     }
 
     public String getHotelName() {
@@ -45,11 +45,11 @@ public class Hotel {
         this.customerType = customerType;
     }
 
-    public int getRate() {
-        return rate;
+    public int getWeekDayRate() {
+        return weekDayRate;
     }
 
-    public void setRate(int rate) {
-        this.rate = rate;
+    public void setWeekDayRate(int weekDayRate) {
+        this.weekDayRate = weekDayRate;
     }
 }

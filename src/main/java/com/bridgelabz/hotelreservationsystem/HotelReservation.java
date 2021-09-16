@@ -10,9 +10,9 @@ public class HotelReservation {
     ArrayList<Hotel> hotelList = new ArrayList<>();
 
 
-    public void addHotel(String hotelName, int rating, CustomerType customerType, int rate) {
+    public void addHotel(String hotelName, int rating, CustomerType customerType, int weekDayRate, int weekEndRate) {
 
-        hotel = new Hotel(hotelName, rating, customerType, rate);
+        hotel = new Hotel(hotelName, rating, customerType, weekDayRate, weekEndRate);
         hotelList.add(hotel);
     }
 
@@ -23,10 +23,10 @@ public class HotelReservation {
     public Hotel getCheapestHotel(LocalDateTime startDate, LocalDateTime endDate) {
         int noOfDaysBetween = (int) ChronoUnit.DAYS.between(startDate, endDate);
         Hotel hotel = hotelList.stream()
-                .min(Comparator.comparing(Hotel::getRate))
+                .min(Comparator.comparing(Hotel::getWeekDayRate))
                 .orElse(null);
         if (hotel != null) {
-            int cheapestPrice = hotel.getRate();
+            int cheapestPrice = hotel.getWeekDayRate();
             System.out.println("Hotel name: " + hotel.getHotelName() + " \nCheapest price: " + cheapestPrice * noOfDaysBetween);
         }
         return hotel;

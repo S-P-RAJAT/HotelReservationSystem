@@ -1,103 +1,19 @@
 package com.bridgelabz.hotelreservationsystem;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.bridgelabz.hotelreservationsystem.DateServiceProvider.calculateTotalDays;
-import static com.bridgelabz.hotelreservationsystem.DateServiceProvider.calculateWeekDays;
+public interface HotelReservation {
+    void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate, int rewardWeekDayRate, int rewardWeekEndRate);
 
-public class HotelReservation {
+    int getSize();
 
-    Hotel hotel;
-    ArrayList<Hotel> hotelList;
-    CustomerType customer;
+    int calculateTotalCostForGivenHotel(Hotel hotel, String startDate, String endDate);
 
-    public HotelReservation() {
+    ArrayList<Hotel> getCheapestHotelList(String startDate, String endDate);
 
-        this.hotelList = new ArrayList<>();
-        this.customer = CustomerType.REGULAR;
-    }
+    Hotel getCheapestBestRatedHotel(String startDate, String endDate);
 
-    public void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate, int rewardWeekDayRate, int rewardWeekEndRate) {
+    Hotel getBestRatedHotel(String startDate, String endDate);
 
-        Map<CustomerType, Integer> weekDayRateMap = new HashMap<>();
-        Map<CustomerType, Integer> weekEndRateMap = new HashMap<>();
-
-        weekDayRateMap.put(CustomerType.REGULAR, regularWeekDayRate);
-        weekEndRateMap.put(CustomerType.REGULAR, regularWeekEndRate);
-
-        weekDayRateMap.put(CustomerType.REWARD, rewardWeekDayRate);
-        weekEndRateMap.put(CustomerType.REWARD, rewardWeekEndRate);
-
-        hotel = new Hotel(hotelName, rating, weekDayRateMap, weekEndRateMap);
-        hotelList.add(hotel);
-    }
-
-    public int getSize() {
-
-        return hotelList.size();
-    }
-
-
-    public int calculateTotalCostForGivenHotel(Hotel hotel, LocalDate startDate, LocalDate endDate) {
-
-        int numberOfDaysBetween = calculateTotalDays(startDate, endDate);
-        int numberOfWeekDays = (int) calculateWeekDays(startDate, endDate);
-        return hotel.getWeekDayRate(this.customer) * numberOfWeekDays + hotel.getWeekEndRate(this.customer) * (numberOfDaysBetween - numberOfWeekDays);
-    }
-
-    public ArrayList<Hotel> getCheapestHotelList(LocalDate startDate, LocalDate endDate) {
-
-        Hotel hotel = hotelList.stream()
-                .min(Comparator.comparing(hotel1 -> calculateTotalCostForGivenHotel(hotel1, startDate, endDate)))
-                .orElse(null);
-        ArrayList<Hotel> hotelList2 = new ArrayList<>();
-
-        if (hotel != null) {
-
-            int cheapestPrice = calculateTotalCostForGivenHotel(hotel, startDate, endDate);
-            for (Hotel newHotel : hotelList) {
-
-                int hotelPrice = calculateTotalCostForGivenHotel(newHotel, startDate, endDate);
-                if (hotelPrice == cheapestPrice) {
-
-                    hotelList2.add(newHotel);
-                    System.out.println("Hotel name: " + newHotel.getHotelName() + " \nCheapest price: " + cheapestPrice);
-                }
-            }
-        }
-        return hotelList2;
-
-    }
-    public Hotel getCheapestBestRatedHotel(LocalDate startDate, LocalDate endDate){
-        ArrayList<Hotel> cheapestHotelList = getCheapestHotelList(startDate, endDate);
-        int rate = 0;
-        Hotel bestHotel = null;
-        for (Hotel hotel: cheapestHotelList) {
-            if(rate<hotel.getRating()){
-                rate = hotel.getRating();
-                bestHotel = hotel;
-            }
-        }
-        return bestHotel;
-    }
-    public Hotel getBestRatedHotel(LocalDate startDate, LocalDate endDate){
-        int rate = 0;
-        Hotel bestHotel = null;
-        for (Hotel hotel: hotelList) {
-            if(rate<hotel.getRating()){
-                rate = hotel.getRating();
-                bestHotel = hotel;
-            }
-        }
-        return bestHotel;
-    }
-    public void setCustomerType(CustomerType customerType){
-        if(customerType != null) {
-            this.customer = customerType;
-        }
-    }
+    void setCustomerType(CustomerType customerType);
 }

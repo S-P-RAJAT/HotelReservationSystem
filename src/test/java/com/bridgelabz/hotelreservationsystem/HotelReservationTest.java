@@ -5,30 +5,31 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
+import com.bridgelabz.hotelreservationsystem.InvalidDateException.*;
 import java.util.ArrayList;
 
 public class HotelReservationTest {
 
     HotelReservation hotelReservation;
-    LocalDate startDate;
-    LocalDate endDate;
+    String startDate;
+    String endDate;
     @Before
     public void initialize(){
 
-        hotelReservation = new HotelReservation();
+        hotelReservation = new HotelReservationImpl();
         hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
         hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
         hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
 
-        startDate = LocalDate.of(2020, 9, 11);
-        endDate = LocalDate.of(2020, 9, 12);
+        startDate = "11Sep2020";
+        endDate   = "12Sep2020";
 
     }
     @Test
     public void addingHotels_WhenSuccessful_shouldChangeListSize() {
 
-        HotelReservation hotelReservation = new HotelReservation();
+        HotelReservation hotelReservation = new HotelReservationImpl();
+
         hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
         Assert.assertEquals(1, hotelReservation.getSize());
 
@@ -52,7 +53,7 @@ public class HotelReservationTest {
     @Test
     public void givenStartAndEndDate_WhenHotelListEmpty_ShouldReturnNull() {
 
-        HotelReservation hotelReservation = new HotelReservation();
+        HotelReservation hotelReservation = new HotelReservationImpl();
         ArrayList<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
         Assert.assertTrue(hotel.isEmpty());
     }
@@ -85,5 +86,61 @@ public class HotelReservationTest {
         Hotel hotel = hotelReservation.getCheapestBestRatedHotel(startDate, endDate);
         Assert.assertEquals("BridgeWood", hotel.getHotelName());
 
+    }
+
+    @Test
+    public void whenGivenInvalidDateFormat_ShouldThrowException()
+    {
+
+        try
+        {
+            String initialDate="123-123";
+            String finalDate="10Jan2020";
+            hotelReservation.getCheapestHotelList(initialDate,finalDate);
+        }
+        catch (InvalidDateException e)
+        {
+            Assert.assertEquals(ExceptionType.INVALID_DATE_FORMAT ,e.type);
+        }
+    }
+
+    @Test
+    public void whenGiven_FinalDateLesserThanInitialDate_ShouldThrowException()
+    {
+        try
+        {
+            String initialDate="10Aug2020";
+            String finalDate="09Aug2020";
+            hotelReservation.getCheapestHotelList(initialDate,finalDate);
+        }
+        catch (InvalidDateException e)
+        {
+            Assert.assertEquals(ExceptionType.INVALID_DATES_ORDER ,e.type);
+        }
+    }
+    @Test
+    public void whenEnteredNullDates_ShouldThrowException()
+    {
+        try
+        {
+            hotelReservation.getCheapestHotelList(null,null);
+        }
+        catch (InvalidDateException e)
+        {
+            Assert.assertEquals(ExceptionType.ENTERED_NULL ,e.type);
+        }
+    }
+
+    @Test
+    public void whenEnteredEmptyDates_ShouldThrowException()
+    {
+        try
+        {
+            hotelReservation.getCheapestHotelList("","");
+        }
+        catch (InvalidDateException e)
+        {
+            Assert.assertEquals(ExceptionType.ENTERED_EMPTY ,e.type);
+        }
     }
 }

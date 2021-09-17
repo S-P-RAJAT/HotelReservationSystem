@@ -62,7 +62,7 @@ public class HotelReservationTest {
         Assert.assertTrue(hotel.isEmpty());
     }
     @Test
-    public void givenStartAndEndDate_ShouldReturnCheapestHotelWithHighestRating() {
+    public void givenStartAndEndDate_MethodGetCheapestBestRatedHotel_ShouldReturnCheapestHotelWithHighestRating() {
 
         HotelReservation hotelReservation = new HotelReservation();
         hotelReservation.addHotel("LakeWood", 3, 110, 90);
@@ -73,5 +73,18 @@ public class HotelReservationTest {
         LocalDate endDate = LocalDate.of(2020, 9, 12);
         Hotel hotel = hotelReservation.getCheapestBestRatedHotel(startDate, endDate);
         Assert.assertEquals("BridgeWood", hotel.getHotelName());
+    }
+    @Test
+    public void givenStartAndEndDate_MethodGetBestRatedHotel_ShouldReturnHotelWithHighestRating() {
+
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel("LakeWood", 3, 110, 90);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150);
+
+        LocalDate startDate = LocalDate.of(2020, 9, 11);
+        LocalDate endDate = LocalDate.of(2020, 9, 12);
+        Hotel hotel = hotelReservation.getBestRatedHotel(startDate, endDate);
+        Assert.assertEquals("RidgeWood", hotel.getHotelName());
     }
 }

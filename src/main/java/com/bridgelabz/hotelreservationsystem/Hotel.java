@@ -1,30 +1,22 @@
 package com.bridgelabz.hotelreservationsystem;
 
-enum CustomerType {
-    REGULAR
-}
+import java.util.Map;
+
 
 public class Hotel {
 
     private String hotelName;
     private int rating;
-    private CustomerType customerType;
-    private int weekDayRate;
-    private int weekEndRate;
 
-    public int getWeekEndRate() {
-        return weekEndRate;
-    }
+    private Map<CustomerType, Integer> weekDayRate;
+    private Map<CustomerType, Integer> weekEndRate;
 
-    public void setWeekEndRate(int weekEndRate) {
-        this.weekEndRate = weekEndRate;
-    }
 
-    public Hotel(String hotelName, int rating, CustomerType customerType, int weekDayRate, int weekEndRate) {
+    public Hotel(String hotelName, int rating, Map<CustomerType, Integer> weekDayRate, Map<CustomerType, Integer> weekEndRate) {
         super();
         this.hotelName = hotelName;
-        this.rating = rating ;
-        this.customerType = customerType;
+        this.rating = rating;
+
         this.weekDayRate = weekDayRate;
         this.weekEndRate = weekEndRate;
     }
@@ -45,19 +37,20 @@ public class Hotel {
         this.rating = rating;
     }
 
-    public CustomerType getCustomerType() {
-        return customerType;
+    public Integer getWeekDayRate(CustomerType customerType) {
+        return weekDayRate.get(customerType);
     }
 
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
-
-    public int getWeekDayRate() {
-        return weekDayRate;
-    }
-
-    public void setWeekDayRate(int weekDayRate) {
+    public void setWeekDayRate(Map<CustomerType, Integer> weekDayRate) {
         this.weekDayRate = weekDayRate;
     }
+
+    public Integer getWeekEndRate(CustomerType customerType) {
+        return weekEndRate.get(customerType);
+    }
+
+    public void setWeekEndRate(Map<CustomerType, Integer> weekEndRate) {
+        this.weekEndRate = weekEndRate;
+    }
+
 }

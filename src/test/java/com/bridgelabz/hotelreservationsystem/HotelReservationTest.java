@@ -13,7 +13,7 @@ public class HotelReservationTest {
     public void add_LakeWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood", 3, 110, 90);
+        hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
         Assert.assertEquals(1, hotelReservation.getSize());
 
     }
@@ -22,7 +22,7 @@ public class HotelReservationTest {
     public void add_BrideWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("BridgeWood", 4, 150, 50);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
         Assert.assertEquals(1, hotelReservation.getSize());
 
     }
@@ -31,7 +31,7 @@ public class HotelReservationTest {
     public void add_RidgeWoodHotel_WhenSuccessful_shouldChangeListSize() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("RidgeWood", 5, 220, 150);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
         Assert.assertEquals(1, hotelReservation.getSize());
     }
 
@@ -39,9 +39,9 @@ public class HotelReservationTest {
     public void givenStartAndEndDate_WhenHotelListNotEmpty_ShouldReturnHotelsWithMostCheapestPrice() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood", 3, 110, 90);
-        hotelReservation.addHotel("BridgeWood", 4, 150, 50);
-        hotelReservation.addHotel("RidgeWood", 5, 220, 150);
+        hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
 
         LocalDate startDate = LocalDate.of(2020, 9, 11);
         LocalDate endDate = LocalDate.of(2020, 9, 12);
@@ -65,9 +65,9 @@ public class HotelReservationTest {
     public void givenStartAndEndDate_MethodGetCheapestBestRatedHotel_ShouldReturnCheapestHotelWithHighestRating() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood", 3, 110, 90);
-        hotelReservation.addHotel("BridgeWood", 4, 150, 50);
-        hotelReservation.addHotel("RidgeWood", 5, 220, 150);
+        hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
 
         LocalDate startDate = LocalDate.of(2020, 9, 11);
         LocalDate endDate = LocalDate.of(2020, 9, 12);
@@ -78,13 +78,29 @@ public class HotelReservationTest {
     public void givenStartAndEndDate_MethodGetBestRatedHotel_ShouldReturnHotelWithHighestRating() {
 
         HotelReservation hotelReservation = new HotelReservation();
-        hotelReservation.addHotel("LakeWood", 3, 110, 90);
-        hotelReservation.addHotel("BridgeWood", 4, 150, 50);
-        hotelReservation.addHotel("RidgeWood", 5, 220, 150);
+        hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
 
         LocalDate startDate = LocalDate.of(2020, 9, 11);
         LocalDate endDate = LocalDate.of(2020, 9, 12);
         Hotel hotel = hotelReservation.getBestRatedHotel(startDate, endDate);
         Assert.assertEquals("RidgeWood", hotel.getHotelName());
+    }
+    @Test
+    public void givenStartAndEndDate_MethodGetCheapestBestRatedHotel_ShouldReturnCheapestHotelWithHighestRatingForRewardCustomers() {
+
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel("LakeWood", 3, 110, 90, 80, 80);
+        hotelReservation.addHotel("BridgeWood", 4, 150, 50, 110, 50);
+        hotelReservation.addHotel("RidgeWood", 5, 220, 150, 100, 40);
+        hotelReservation.setCustomerType(CustomerType.REWARD);
+        LocalDate startDate = LocalDate.of(2020, 9, 11);
+        LocalDate endDate = LocalDate.of(2020, 9, 12);
+        Hotel hotel = hotelReservation.getCheapestBestRatedHotel(startDate, endDate);
+        Assert.assertEquals("RidgeWood", hotel.getHotelName());
+        Assert.assertEquals(5, hotel.getRating());
+        Assert.assertEquals(140, hotelReservation.calculateTotalCostForGivenHotel(hotel, startDate, endDate));
+
     }
 }

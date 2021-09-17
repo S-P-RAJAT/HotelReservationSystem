@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.bridgelabz.hotelreservationsystem.InvalidDateException.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HotelReservationTest {
 
@@ -54,7 +55,7 @@ public class HotelReservationTest {
     public void givenStartAndEndDate_WhenHotelListEmpty_ShouldReturnNull() {
 
         HotelReservation hotelReservation = new HotelReservationImpl();
-        ArrayList<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
+        List<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
         Assert.assertTrue(hotel.isEmpty());
     }
     @Test

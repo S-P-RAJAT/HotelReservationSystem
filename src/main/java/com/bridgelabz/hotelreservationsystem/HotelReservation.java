@@ -1,6 +1,7 @@
 package com.bridgelabz.hotelreservationsystem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface HotelReservation {
     void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate, int rewardWeekDayRate, int rewardWeekEndRate);
@@ -9,7 +10,7 @@ public interface HotelReservation {
 
     int calculateTotalCostForGivenHotel(Hotel hotel, String startDate, String endDate);
 
-    ArrayList<Hotel> getCheapestHotelList(String startDate, String endDate);
+    List<Hotel> getCheapestHotelList(String startDate, String endDate);
 
     Hotel getCheapestBestRatedHotel(String startDate, String endDate);
 

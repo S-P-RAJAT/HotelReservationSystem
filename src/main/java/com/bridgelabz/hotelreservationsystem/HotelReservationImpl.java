@@ -1,9 +1,7 @@
 package com.bridgelabz.hotelreservationsystem;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.bridgelabz.hotelreservationsystem.DateServiceProvider.*;
 
@@ -52,55 +50,34 @@ public class HotelReservationImpl implements HotelReservation {
     }
 
     @Override
-    public ArrayList<Hotel> getCheapestHotelList(String startDate, String endDate) {
+    public List<Hotel> getCheapestHotelList(String startDate, String endDate) {
 
-        Hotel hotel = hotelList.stream()
+        Hotel bestHotel = hotelList.stream()
                 .min(Comparator.comparing(hotel1 -> calculateTotalCostForGivenHotel(hotel1, startDate, endDate)))
                 .orElse(null);
-        ArrayList<Hotel> hotelList2 = new ArrayList<>();
 
-        if (hotel != null) {
-
-            int cheapestPrice = calculateTotalCostForGivenHotel(hotel, startDate, endDate);
-            for (Hotel newHotel : hotelList) {
-
-                int hotelPrice = calculateTotalCostForGivenHotel(newHotel, startDate, endDate);
-                if (hotelPrice == cheapestPrice) {
-
-                    hotelList2.add(newHotel);
-                    System.out.println("Hotel name: " + newHotel.getHotelName() + " \nCheapest price: " + cheapestPrice);
-                }
-            }
-        }
-        return hotelList2;
+        return  hotelList.stream()
+                .filter(hotel1 -> calculateTotalCostForGivenHotel(hotel1,startDate,endDate) == calculateTotalCostForGivenHotel(bestHotel,startDate,endDate))
+                .collect(Collectors.toList());
 
     }
+
     @Override
     public Hotel getCheapestBestRatedHotel(String startDate, String endDate){
-        ArrayList<Hotel> cheapestHotelList = getCheapestHotelList(startDate, endDate);
-        int rate = 0;
-        Hotel bestHotel = null;
-        for (Hotel hotel: cheapestHotelList) {
-            if(rate<hotel.getRating()){
-                rate = hotel.getRating();
-                bestHotel = hotel;
-            }
-        }
-        return bestHotel;
+        List<Hotel> cheapestHotelList = getCheapestHotelList(startDate, endDate);
+        return  cheapestHotelList.stream()
+                .max(Comparator.comparing(Hotel::getRating))
+                .orElse(null);
     }
+
     @Override
     public Hotel getBestRatedHotel(String startDate, String endDate){
         dateValidation(startDate, endDate);
-        int rate = 0;
-        Hotel bestHotel = null;
-        for (Hotel hotel: hotelList) {
-            if(rate<hotel.getRating()){
-                rate = hotel.getRating();
-                bestHotel = hotel;
-            }
-        }
-        return bestHotel;
+        return  hotelList.stream()
+                .max(Comparator.comparing(Hotel::getRating))
+                .orElse(null);
     }
+
     @Override
     public void setCustomerType(CustomerType customerType){
         if(customerType != null) {

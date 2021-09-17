@@ -1,12 +1,13 @@
 package com.bridgelabz.hotelreservationsystem;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.bridgelabz.hotelreservationsystem.DateServiceProvider.calculateTotalDays;
+import static com.bridgelabz.hotelreservationsystem.DateServiceProvider.calculateWeekDays;
 
 public class HotelReservation {
 
@@ -40,22 +41,11 @@ public class HotelReservation {
         return hotelList.size();
     }
 
-    public static long calculateWeekDays(LocalDate start, LocalDate end) {
-
-        final DayOfWeek startDay = start.getDayOfWeek();
-        final DayOfWeek endDay = end.getDayOfWeek();
-
-        final long days = ChronoUnit.DAYS.between(start, end);
-        final long daysWithoutWeekends = days - 2 * ((days + startDay.getValue()) / 7);
-
-        //adjust for starting and ending on a Sunday:
-        return daysWithoutWeekends + (startDay == DayOfWeek.SUNDAY ? 1 : 0) + (endDay == DayOfWeek.SUNDAY ? 1 : 0);
-    }
 
     public int calculateTotalCostForGivenHotel(Hotel hotel, LocalDate startDate, LocalDate endDate) {
 
-        int numberOfDaysBetween =  endDate.plusDays(1).compareTo(startDate);
-        int numberOfWeekDays = (int) calculateWeekDays(startDate, endDate.plusDays(1));
+        int numberOfDaysBetween = calculateTotalDays(startDate, endDate);
+        int numberOfWeekDays = (int) calculateWeekDays(startDate, endDate);
         return hotel.getWeekDayRate(this.customer) * numberOfWeekDays + hotel.getWeekEndRate(this.customer) * (numberOfDaysBetween - numberOfWeekDays);
     }
 

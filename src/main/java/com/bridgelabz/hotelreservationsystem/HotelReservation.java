@@ -90,4 +90,15 @@ public class HotelReservation {
         }
         return bestHotel;
     }
+    public Hotel getBestRatedHotel(LocalDate startDate, LocalDate endDate){
+        int rate = 0;
+        Hotel bestHotel = null;
+        for (Hotel hotel: hotelList) {
+            if(rate<hotel.getRating()){
+                rate = hotel.getRating();
+                bestHotel = hotel;
+            }
+        }
+        return bestHotel;
+    }
 }

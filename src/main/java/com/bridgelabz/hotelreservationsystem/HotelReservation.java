@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface HotelReservation {
-    void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate, int rewardWeekDayRate, int rewardWeekEndRate);
+
+    void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate,
+            int rewardWeekDayRate, int rewardWeekEndRate);
 
     int getSize();
 

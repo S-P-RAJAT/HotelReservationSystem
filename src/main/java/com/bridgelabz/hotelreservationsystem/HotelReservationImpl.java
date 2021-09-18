@@ -54,7 +54,8 @@ public class HotelReservationImpl implements HotelReservation {
         Integer cheapestPrice = hotelList.stream()
                 .map(hotel1 -> calculateTotalCostForGivenHotel(hotel1, startDate, endDate))
                 .min(Integer::compareTo)
-                .orElse(null);
+                .orElseThrow(()->new NoHotelsFoundException(NoHotelsFoundException.ExceptionType.HOTEL_LIST_EMPTY,
+                "Please provide at least one hotel details!"));
 
         return  hotelList.stream()
                 .filter(hotel1 -> calculateTotalCostForGivenHotel(hotel1,startDate,endDate) == cheapestPrice)
@@ -75,7 +76,8 @@ public class HotelReservationImpl implements HotelReservation {
         dateValidation(startDate, endDate);
         return  hotelList.stream()
                 .max(Comparator.comparing(Hotel::getRating))
-                .orElse(null);
+                .orElseThrow(()->new NoHotelsFoundException(NoHotelsFoundException.ExceptionType.HOTEL_LIST_EMPTY,
+                        "Please provide at least one hotel details!"));
     }
 
     @Override

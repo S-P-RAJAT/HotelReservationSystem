@@ -51,8 +51,11 @@ public class HotelReservationTest {
     @Test
     public void givenStartAndEndDate_WhenHotelListEmpty_ShouldReturnNull() {
         HotelReservation hotelReservation = new HotelReservationImpl();
-        List<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
-        Assert.assertTrue(hotel.isEmpty());
+        try {
+            List<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
+        } catch (NoHotelsFoundException e){
+            Assert.assertEquals(NoHotelsFoundException.ExceptionType.HOTEL_LIST_EMPTY,e.type);
+        }
     }
 
     @Test

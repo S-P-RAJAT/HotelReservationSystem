@@ -49,7 +49,7 @@ public class HotelReservationTest {
     }
 
     @Test
-    public void givenStartAndEndDate_WhenHotelListEmpty_ShouldReturnNull() {
+    public void givenStartAndEndDate_WhenHotelListEmpty_ShouldThrowException() {
         HotelReservation hotelReservation = new HotelReservationImpl();
         try {
             List<Hotel> hotel = hotelReservation.getCheapestHotelList(startDate, endDate);
@@ -81,8 +81,7 @@ public class HotelReservationTest {
     }
 
     @Test
-    public void
-    givenCustomerType_WhenIsNull_ShouldReturnCheapestHotelWithHighestRatingForRegularCustomers() {
+    public void givenCustomerType_WhenIsNull_ShouldReturnCheapestHotelWithHighestRatingForRegularCustomers() {
         hotelReservation.setCustomerType(null);
         Hotel hotel = hotelReservation.getCheapestBestRatedHotel(startDate, endDate);
         Assert.assertEquals("BridgeWood", hotel.getHotelName());

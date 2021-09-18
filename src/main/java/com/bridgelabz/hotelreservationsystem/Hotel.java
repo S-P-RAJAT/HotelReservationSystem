@@ -12,7 +12,10 @@ public class Hotel {
     private Map<CustomerType, Integer> weekEndRate;
 
 
-    public Hotel(String hotelName, int rating, Map<CustomerType, Integer> weekDayRate, Map<CustomerType, Integer> weekEndRate) {
+    public Hotel(String hotelName,
+                 int rating,
+                 Map<CustomerType, Integer> weekDayRate,
+                 Map<CustomerType, Integer> weekEndRate) {
         super();
         this.hotelName = hotelName;
         this.rating = rating;

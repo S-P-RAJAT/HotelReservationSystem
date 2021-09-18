@@ -18,14 +18,13 @@ public class HotelReservationImpl implements HotelReservation {
     }
 
     @Override
-    public void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate, int rewardWeekDayRate, int rewardWeekEndRate) {
-
+    public void addHotel(String hotelName, int rating, int regularWeekDayRate, int regularWeekEndRate,
+            int rewardWeekDayRate, int rewardWeekEndRate) {
         Map<CustomerType, Integer> weekDayRateMap = new HashMap<>();
         Map<CustomerType, Integer> weekEndRateMap = new HashMap<>();
 
         weekDayRateMap.put(CustomerType.REGULAR, regularWeekDayRate);
         weekEndRateMap.put(CustomerType.REGULAR, regularWeekEndRate);
-
         weekDayRateMap.put(CustomerType.REWARD, rewardWeekDayRate);
         weekEndRateMap.put(CustomerType.REWARD, rewardWeekEndRate);
 
@@ -35,29 +34,30 @@ public class HotelReservationImpl implements HotelReservation {
 
     @Override
     public int getSize() {
-
         return hotelList.size();
     }
 
 
     @Override
     public int calculateTotalCostForGivenHotel(Hotel hotel, String startDate, String endDate) {
-
         dateValidation(startDate, endDate);
         int numberOfDaysBetween = calculateTotalDays(startDate, endDate);
         int numberOfWeekDays = calculateWeekDays(startDate, endDate);
-        return hotel.getWeekDayRate(this.customer) * numberOfWeekDays + hotel.getWeekEndRate(this.customer) * (numberOfDaysBetween - numberOfWeekDays);
+        System.out.println(hotel.getHotelName());
+        return hotel.getWeekDayRate(this.customer) * numberOfWeekDays
+                + hotel.getWeekEndRate(this.customer) * (numberOfDaysBetween - numberOfWeekDays);
     }
 
     @Override
     public List<Hotel> getCheapestHotelList(String startDate, String endDate) {
 
-        Hotel bestHotel = hotelList.stream()
-                .min(Comparator.comparing(hotel1 -> calculateTotalCostForGivenHotel(hotel1, startDate, endDate)))
+        Integer cheapestPrice = hotelList.stream()
+                .map(hotel1 -> calculateTotalCostForGivenHotel(hotel1, startDate, endDate))
+                .min(Integer::compareTo)
                 .orElse(null);
 
         return  hotelList.stream()
-                .filter(hotel1 -> calculateTotalCostForGivenHotel(hotel1,startDate,endDate) == calculateTotalCostForGivenHotel(bestHotel,startDate,endDate))
+                .filter(hotel1 -> calculateTotalCostForGivenHotel(hotel1,startDate,endDate) == cheapestPrice)
                 .collect(Collectors.toList());
 
     }
